@@ -1,11 +1,28 @@
-# JSONStream
+# json-stream 
 
-streaming JSON.parse and stringify
+Streaming JSON.parse and stringify
 
-![](https://secure.travis-ci.org/dominictarr/JSONStream.png?branch=master)
+Based on dominictarr's JSONStream, this version has been modified to handle null values as significant.
+https://www.npmjs.com/package/JSONStream
+
+### Details 
+
+Note about this particular version. Objects structured:
+
+```
+{ a: 1, b: null } 
+```
+
+would be read in and be missing the b key from the top level object in the original version. 
+For the purposes of reading in objects where the null value is significant, this needed an adjustment.
+
+This version of this library will read in the object with null values correctly. It
+does mean that it will ignore `undefined` values however as I replaced the nullish behaviour
+with undefined behaviour. For purposes of reading in data that was serialized originally from
+a SQL database, this is preferable. The test cases in the package have been updated to reflect this.
 
 ## install
-```npm install JSONStream```
+```npm install @alexrmturner/json-stream```
 
 ## example
 
@@ -195,6 +212,8 @@ huge numbers that cannot be represented in memory as javascript numbers will be 
 cf https://github.com/creationix/jsonparse/commit/044b268f01c4b8f97fb936fc85d3bcfba179e5bb for details.
 
 ## Acknowlegements
+
+based originally on https://www.npmjs.com/package/JSONStream
 
 this module depends on https://github.com/creationix/jsonparse
 by Tim Caswell
