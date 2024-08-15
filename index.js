@@ -105,18 +105,20 @@ exports.parse = function (path, map) {
     count ++
     var actualPath = this.stack.slice(1).map(function(element) { return element.key }).concat([this.key])
     var data = value
-    if(null != data)
-      if(null != (data = map ? map(data, actualPath) : data)) {
-        if (emitKey || emitPath) {
-          data = { value: data };
-          if (emitKey)
-            data["key"] = this.key;
-          if (emitPath)
-            data["path"] = actualPath;
-        }
 
-        stream.queue(data)
+    if (undefined !== (data = map ? map(data, actualPath) : data)) {
+
+      if (emitKey || emitPath) {
+        data = { value: data };
+        if (emitKey)
+          data["key"] = this.key;
+        if (emitPath)
+          data["path"] = actualPath;
       }
+
+      stream.queue(data)
+    }
+
     if (this.value) delete this.value[this.key]
     for(var k in this.stack)
       if (!Object.isFrozen(this.stack[k]))

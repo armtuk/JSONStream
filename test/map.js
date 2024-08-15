@@ -25,7 +25,7 @@ test('filter function', function (t) {
   var actual = []
 
   stream = JSONStream
-    .parse([true], function (e) { return e%2 ? e : null})
+    .parse([true], function (e) { return e%2 ? e : undefined})
     .on('data', function (v) { actual.push(v)})
     .on('end', function () {
       t.deepEqual(actual, [1,3,5])
